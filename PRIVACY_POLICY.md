@@ -51,5 +51,5 @@ We may update this Privacy Policy from time to time. Any changes will be posted 
 
 ### 7. Contact Us
 If you have any questions or suggestions regarding this Privacy Policy, please contact us at:
-* **Email:** support@husniddin.uz (or your developer contact email)
+* **Email:** madaminov0998@gmail.com
 * **Developer:** Husniddin Madaminov
