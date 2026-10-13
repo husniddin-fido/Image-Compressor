@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Image Compressor</title>
+    <meta name="description" content="Privacy Policy for Image Compressor Android app. 100% on-device image compression with zero data collection.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>">
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --primary-light: rgba(37, 99, 235, 0.08);
+            --text-main: #1F2937;
+            --text-muted: #4B5563;
+            --bg-page: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --border: #E5E7EB;
+            --badge-bg: #EFF6FF;
+            --badge-text: #1D4ED8;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #3B82F6;
+                --primary-hover: #60A5FA;
+                --primary-light: rgba(59, 130, 246, 0.15);
+                --text-main: #F9FAFB;
+                --text-muted: #9CA3AF;
+                --bg-page: #0F172A;
+                --bg-card: #1E293B;
+                --border: #334155;
+                --badge-bg: rgba(59, 130, 246, 0.2);
+                --badge-text: #93C5FD;
+                --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.65;
+            padding: 32px 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wrapper {
+            max-width: 820px;
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .app-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .app-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #2563EB, #14B8A6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+        }
+
+        .lang-switch {
+            display: inline-flex;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 3px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .lang-btn {
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 44px;
+            box-shadow: var(--card-shadow);
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 24px;
+            }
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
+
+        .update-date {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .lead-text {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 32px;
+            padding: 16px 20px;
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 36px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            font-size: 0.975rem;
+        }
+
+        li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 1px;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .highlight-box {
+            background: var(--bg-page);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 8px;
+        }
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        code {
+            background: var(--bg-page);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        footer {
+            margin-top: 36px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header-actions">
+            <a href="#" class="app-brand">
+                <div class="app-icon">🖼️</div>
+                <span>Image Compressor</span>
+            </a>
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="switchLang('en')">English</button>
+                <button class="lang-btn" onclick="switchLang('uz')">O'zbekcha</button>
+            </div>
+        </header>
+
+        <main class="card">
+            <!-- English Content -->
+            <div id="content-en" class="lang-content active">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    100% On-Device &bull; No Internet Permission
+                </div>
+                <h1>Privacy Policy</h1>
+                <p class="update-date">Last updated: October 13, 2026 &bull; Effective date: October 13, 2026</p>
+
+                <div class="lead-text">
+                    <strong>Image Compressor</strong> respects your privacy above all else. This application operates entirely offline on your device, collects zero personal data, and has no network capabilities.
+                </div>
+
+                <h2>1. 100% On-Device Processing</h2>
+                <p>All image processing operations — including image compression, resizing, format conversion (JPEG, PNG, WebP), and before/after comparisons — are performed <strong>exclusively on your physical device</strong> using local hardware resources.</p>
+                <ul>
+                    <li>No photos, videos, or files are ever uploaded to any external server or cloud service.</li>
+                    <li>The app does not declare or request the <code>android.permission.INTERNET</code> permission.</li>
+                    <li>No network connections are initiated or accepted by the application.</li>
+                </ul>
+
+                <h2>2. Information We Collect</h2>
+                <p><strong>We collect, store, transmit, or share NO personal information whatsoever.</strong></p>
+                <ul>
+                    <li><strong>No Personal Identifiers:</strong> We do not collect names, email addresses, phone numbers, IP addresses, or device IDs.</li>
+                    <li><strong>No Image Content:</strong> Your photos never leave your device storage.</li>
+                    <li><strong>No Analytics or Crash Tracking:</strong> The application does not contain third-party tracking SDKs (e.g., Firebase, Google Analytics, Facebook SDK).</li>
+                    <li><strong>No Advertisements:</strong> The application does not display ads and does not integrate ad SDKs.</li>
+                </ul>
+
+                <h2>3. Permissions & System Access</h2>
+                <p>The app only utilizes the minimum operating system facilities required for core utility features:</p>
+                <ul>
+                    <li><strong>Photo Picker (Android 10+):</strong> The app uses the official Android Photo Picker. This ensures that you only share the exact photos you choose; the app never has access to your full media library.</li>
+                    <li><strong>Storage Permission (Android 9 / API 28 only):</strong> On Android 9, the legacy <code>WRITE_EXTERNAL_STORAGE</code> permission (scoped to <code>maxSdkVersion="28"</code>) is used solely to save your compressed results to the public <em>Pictures/Image Compressor</em> folder. Modern scoped storage is utilized on API 29 and higher without requiring broad storage permissions.</li>
+                </ul>
+
+                <h2>4. Data Storage & Deletion</h2>
+                <ul>
+                    <li><strong>Temporary Cache:</strong> Temporary working files are written to the app's sandboxed private cache directory (<code>cache/outputs</code>). These files are automatically deleted upon starting a new session or finishing an existing one.</li>
+                    <li><strong>Saved History:</strong> Compression records (file names, previous and new byte sizes, dimensions, and timestamps) are kept solely on your device in a local SQLite database for your convenience. You can clear this history anytime in the app settings.</li>
+                    <li><strong>App Removal:</strong> Uninstalling the app permanently purges all associated local cache, preferences, and history from your device.</li>
+                </ul>
+
+                <h2>5. Children's Privacy</h2>
+                <p>Because Image Compressor does not collect, retain, or transmit any data from any individual, the application is safe and appropriate for users of all ages, including children.</p>
+
+                <h2>6. Changes to this Policy</h2>
+                <p>We may update this Privacy Policy from time to time. Any revisions will be published at this permanent URL with an updated effective date.</p>
+
+                <h2>7. Contact Information</h2>
+                <div class="highlight-box">
+                    <p>If you have questions, feedback, or inquiries regarding this Privacy Policy, please contact:</p>
+                    <p><strong>Developer:</strong> Husniddin Madaminov</p>
+                    <p><strong>Email:</strong> <a href="mailto:support@husniddin.uz" style="color: var(--primary);">support@husniddin.uz</a></p>
+                    <p><strong>GitHub:</strong> <a href="https://github.com/husniddin-fido/Image-Compressor" target="_blank" style="color: var(--primary);">github.com/husniddin-fido/Image-Compressor</a></p>
+                </div>
+            </div>
+
+            <!-- Uzbek Content -->
+            <div id="content-uz" class="lang-content">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    100% Qurilmaning O'zida &bull; Internet Ruxsatisiz
+                </div>
+                <h1>Maxfiylik Siyosati</h1>
+                <p class="update-date">Oxirgi yangilanish: 13-oktabr, 2026-yil &bull; Kuchga kirish sanasi: 13-oktabr, 2026-yil</p>
+
+                <div class="lead-text">
+                    <strong>Image Compressor</strong> sizning shaxsiy ma'lumotlaringiz maxfiyligini to'liq kafolatlaydi. Ilova 100% oflayn rejimda ishlaydi, hech qanday ma'lumot to'plamaydi va internetga chiqish imkoniyatiga ega emas.
+                </div>
+
+                <h2>1. 100% Qurilmada Qayta Ishlash</h2>
+                <p>Barcha rasm siqish, o'lchamini o'zgartirish, formatlarni konvertatsiya qilish (JPEG, PNG, WebP) va taqqoslash operatsiyalari <strong>faqat sizning qurilmangizning o'zida</strong> amalga oshiriladi.</p>
+                <ul>
+                    <li>Rasmlaringiz hech qachon tashqi serverlarga yoki bulutli xizmatlarga yuklanmaydi.</li>
+                    <li>Ilovada <code>android.permission.INTERNET</code> ruxsati mutlaqo mavjud emas.</li>
+                    <li>Ilova hech qanday tarmoq so'rovlarini bajarmaydi.</li>
+                </ul>
+
+                <h2>2. Biz To'playdigan Ma'lumotlar</h2>
+                <p><strong>Biz foydalanuvchilarning hech qanday shaxsiy ma'lumotlarini to'plamaymiz va uzatmaymiz.</strong></p>
+                <ul>
+                    <li><strong>Shaxsiy ma'lumotlar yo'q:</strong> Ism, elektron pochta, telefon raqami yoki qurilma identifikatorlari to'planmaydi.</li>
+                    <li><strong>Fotosuratlar daxlsizligi:</strong> Rasmlaringiz qurilmangizdan tashqariga chiqmaydi.</li>
+                    <li><strong>Kuzatuvchilar (Analytics) yo'q:</strong> Ilovada uchinchi tomon tahliliy modullari (Firebase, Google Analytics va h.k.) mavjud emas.</li>
+                    <li><strong>Reklamasiz:</strong> Ilovada reklama bannerlari va reklama SDK lari yo'q.</li>
+                </ul>
+
+                <h2>3. Tizim Ruxsatlari</h2>
+                <p>Ilova faqat uning to'g'ri ishlashi uchun zarur bo'lgan minimal tizim imkoniyatlaridan foydalanadi:</p>
+                <ul>
+                    <li><strong>Photo Picker (Android 10+):</strong> Ilova rasmiy Android Photo Picker tizimidan foydalanadi. Bu orqali siz faqat o'zingiz tanlagan rasmlarnigina taqdim etasiz, butun galereyaga ruxsat berish shart emas.</li>
+                    <li><strong>Xotiraga yozish (faqat Android 9 / API 28):</strong> Faqat Android 9 da siqilgan rasmni <em>Pictures/Image Compressor</em> papkasiga saqlash uchun ruxsat so'raladi. Android 10 va undan yuqori versiyalarda umumiy ruxsatlarsiz zamonaviy Scoped Storage ishlatiladi.</li>
+                </ul>
+
+                <h2>4. Ma'lumotlarni Saqlash va O'chirish</h2>
+                <ul>
+                    <li><strong>Vaqtinchalik kesh:</strong> Qayta ishlash jarayonidagi vaqtinchalik fayllar ilovaning shaxsiy kesh papkasida (<code>cache/outputs</code>) saqlanadi va yangi sessiya boshlanganda avtomatik o'chiriladi.</li>
+                    <li><strong>Saqlash tarixi:</strong> Saqlangan rasmlar tarixi (fayl nomi, hajmi, sanasi) faqat sizga qulaylik uchun qurilma xotirasida (Room DB) saqlanadi. Uni istalgan vaqtda sozlamalardan o'chirib tashlashingiz mumkin.</li>
+                    <li><strong>Ilovani o'chirish:</strong> Ilovani telefondan o'chirib tashlaganingizda, unga tegishli barcha kesh va tarixlar birgalikda to'liq o'chib ketadi.</li>
+                </ul>
+
+                <h2>5. Bolalar Maxfiyligi</h2>
+                <p>Ilova hech qanday ma'lumot to'plamasligi sababli barcha yoshdagi foydalanuvchilar, jumladan bolalar uchun ham mutlaqo xavfsiz hisoblanadi.</p>
+
+                <h2>6. Siyosatdagi O'zgarishlar</h2>
+                <p>Mazkur Maxfiylik Siyosatiga o'zgarishlar kiritilsa, ushbu sahifada yangilangan sana bilan e'lon qilinadi.</p>
+
+                <h2>7. Bog'lanish</h2>
+                <div class="highlight-box">
+                    <p>Savollar yoki takliflar yuzasidan quyidagi manzillarga murojaat qilishingiz mumkin:</p>
+                    <p><strong>Dasturchi:</strong> Husniddin Madaminov</p>
+                    <p><strong>Email:</strong> <a href="mailto:support@husniddin.uz" style="color: var(--primary);">support@husniddin.uz</a></p>
+                    <p><strong>GitHub:</strong> <a href="https://github.com/husniddin-fido/Image-Compressor" target="_blank" style="color: var(--primary);">github.com/husniddin-fido/Image-Compressor</a></p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Image Compressor &bull; <a href="https://github.com/husniddin-fido/Image-Compressor" target="_blank">Open Source on GitHub</a></p>
+        </footer>
+    </div>
+
+    <script>
+        function switchLang(lang) {
+            document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById('content-' + lang).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

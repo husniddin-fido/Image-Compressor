@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Image Compressor</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --text: #1F2937;
+            --bg: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --border: #E5E7EB;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #3B82F6;
+                --text: #F3F4F6;
+                --bg: #111827;
+                --card-bg: #1F2937;
+                --border: #374151;
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 24px;
+        }
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        h1 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 2rem;
+        }
+        h2 {
+            margin-top: 32px;
+            font-size: 1.3rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+        p, li {
+            font-size: 1rem;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 0.875rem;
+            color: #6B7280;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">100% Offline &amp; Privacy-Focused</span>
+        <h1>Privacy Policy for Image Compressor</h1>
+        <p><strong>Last updated:</strong> October 13, 2026</p>
+
+        <p><strong>Image Compressor</strong> ("we", "our", or "the app") is committed to protecting your privacy. This Privacy Policy explains our practices regarding user data and privacy.</p>
+
+        <h2>1. 100% On-Device Processing</h2>
+        <p>All image compression, resizing, format conversion, and comparisons are performed <strong>entirely on your device</strong>.</p>
+        <ul>
+            <li>The app does <strong>not</strong> upload your photos or files to any external server or cloud service.</li>
+            <li>The app does <strong>not</strong> require or use the <code>INTERNET</code> permission (<code>android.permission.INTERNET</code>).</li>
+            <li>No network requests are made by the application at any time.</li>
+        </ul>
+
+        <h2>2. Information We Collect</h2>
+        <p><strong>We do not collect, store, transmit, or share any personal information or usage data.</strong></p>
+        <ul>
+            <li><strong>No Personal Data:</strong> We do not collect names, email addresses, phone numbers, location data, or device identifiers.</li>
+            <li><strong>No Image Data:</strong> Your photos never leave your device.</li>
+            <li><strong>No Analytics or Trackers:</strong> The app does not include any analytics SDKs (e.g., Firebase, Google Analytics), crash reporters, or tracking libraries.</li>
+            <li><strong>No Advertising:</strong> The app contains no advertisements and integrates no ad SDKs.</li>
+        </ul>
+
+        <h2>3. Device Permissions</h2>
+        <p>The app only requests the minimum necessary permissions to function:</p>
+        <ul>
+            <li><strong>Photo Picker (No Storage Permission):</strong> On modern Android versions, the app uses the system Photo Picker, which allows you to pick specific images without granting access to your entire storage library.</li>
+            <li><strong>Storage Access (Android 9 / API 28 only):</strong> On Android 9, <code>WRITE_EXTERNAL_STORAGE</code> is requested solely to save compressed images to your device's public <code>Pictures</code> directory. On Android 10 and above, standard scoped storage (<code>MediaStore</code> and <code>Storage Access Framework</code>) is used without requiring broad storage permissions.</li>
+        </ul>
+
+        <h2>4. Local Storage and Data Deletion</h2>
+        <ul>
+            <li><strong>Temporary Cache:</strong> Temporary preview files are stored in the app's private internal cache (<code>cache/outputs</code>). These files are automatically cleaned up when starting a new session or clearing app cache.</li>
+            <li><strong>History:</strong> The app maintains a local database of your saved compression history (file names, sizes, and timestamps) solely for your reference. This history is stored strictly on your device and can be cleared at any time via the History or Settings screen.</li>
+            <li><strong>App Uninstallation:</strong> Uninstalling the app permanently removes all local app data, cache, and history.</li>
+        </ul>
+
+        <h2>5. Children's Privacy</h2>
+        <p>Because the app does not collect any personal data from anyone, it is safe for users of all ages, including children under 13.</p>
+
+        <h2>6. Changes to This Privacy Policy</h2>
+        <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
+
+        <h2>7. Contact Us</h2>
+        <p>If you have any questions or suggestions regarding this Privacy Policy, please contact us at:</p>
+        <ul>
+            <li><strong>Email:</strong> support@husniddin.uz</li>
+            <li><strong>Developer:</strong> Husniddin Madaminov</li>
+        </ul>
+
+        <div class="footer">
+            &copy; 2026 Image Compressor. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
