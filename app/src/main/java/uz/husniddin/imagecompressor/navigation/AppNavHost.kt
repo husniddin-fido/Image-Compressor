@@ -18,6 +18,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -63,11 +64,20 @@ private fun NavHostController.navigateToTab(tab: Tab) {
 
 private fun NavDestination?.isTab(tab: Tab): Boolean = this?.hierarchy?.any { it.hasRoute(tab.routeClass) } == true
 
+/** "uz.….navigation.ComparisonRoute/{itemId}" → "Comparison" (no arguments, no user data). */
+private fun NavDestination.screenName(): String? =
+    route?.substringBefore('/')?.substringBefore('?')?.substringAfterLast('.')?.removeSuffix("Route")
+
 @Composable
-fun AppNavHost() {
+fun AppNavHost(
+    onScreenView: (String) -> Unit = {},
+    startDestination: Any = HomeRoute,
+) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val destination = backStackEntry?.destination
+    val screenName = destination?.screenName()
+    LaunchedEffect(screenName) { screenName?.let(onScreenView) }
     val showTabs = Tab.entries.any { destination.isTab(it) }
 
     val goHome: () -> Unit = {
@@ -100,7 +110,7 @@ fun AppNavHost() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = HomeRoute,
+            startDestination = startDestination,
             modifier = Modifier.padding(innerPadding).consumeWindowInsets(innerPadding),
         ) {
             composable<HomeRoute> {

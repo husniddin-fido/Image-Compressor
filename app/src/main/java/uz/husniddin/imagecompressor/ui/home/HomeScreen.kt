@@ -108,7 +108,7 @@ private fun HeroCard(onSelectImages: () -> Unit, onSelectSingleImage: () -> Unit
             )
             Spacer(Modifier.width(Spacing.xs))
             Text(
-                "Processed on your device. Nothing is uploaded.",
+                "Processed on your device. Your images are never uploaded.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

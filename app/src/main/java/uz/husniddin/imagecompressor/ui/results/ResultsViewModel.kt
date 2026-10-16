@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import uz.husniddin.imagecompressor.data.output.ResultSaver
 import uz.husniddin.imagecompressor.data.output.SaveDestination
+import uz.husniddin.imagecompressor.telemetry.Events
+import uz.husniddin.imagecompressor.telemetry.Telemetry
 import uz.husniddin.imagecompressor.data.preferences.SettingsRepository
 import uz.husniddin.imagecompressor.data.processing.BatchProcessor
 import uz.husniddin.imagecompressor.data.processing.BatchState
@@ -30,6 +32,7 @@ class ResultsViewModel @Inject constructor(
     private val selection: SelectionRepository,
     private val resultSaver: ResultSaver,
     settingsRepository: SettingsRepository,
+    private val telemetry: Telemetry,
 ) : ViewModel() {
 
     val state: StateFlow<BatchState?> = batchProcessor.state
@@ -53,6 +56,7 @@ class ResultsViewModel @Inject constructor(
             _saving.value = true
             val summary = resultSaver.saveAll(items, destination)
             _saving.value = false
+            reportSaved(destination, summary.saved.size)
             val where = summary.saved.firstOrNull()?.locationLabel
             val text = when {
                 summary.failures.isEmpty() -> "Saved ${summary.saved.size} image(s) to $where"
@@ -66,6 +70,18 @@ class ResultsViewModel @Inject constructor(
     fun saveAllToDefault() = saveAll(SaveDestination.from(saveLocation.value))
 
     fun saveAllToFolder(treeUri: Uri) = saveAll(SaveDestination.Folder(treeUri))
+
+    fun onShared(count: Int) = telemetry.logEvent(Events.IMAGES_SHARED, mapOf(Events.P_COUNT to count))
+
+    private fun reportSaved(destination: SaveDestination, count: Int) {
+        if (count == 0) return
+        val type = when (destination) {
+            SaveDestination.Pictures -> "pictures"
+            is SaveDestination.Folder -> "folder"
+            is SaveDestination.Document -> "document"
+        }
+        telemetry.logEvent(Events.IMAGES_SAVED, mapOf(Events.P_DESTINATION to type, Events.P_COUNT to count))
+    }
 
     fun showMessage(text: String) {
         viewModelScope.launch { _messages.send(UiMessage(text)) }

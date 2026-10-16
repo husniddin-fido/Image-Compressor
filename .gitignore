@@ -23,3 +23,6 @@ keystore.properties
 # Build outputs & bundles
 *.aab
 *.apk
+
+# Firebase config (download from the Firebase console; keep out of the public repo)
+google-services.json

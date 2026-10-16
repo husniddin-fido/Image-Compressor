@@ -3,6 +3,7 @@ package uz.husniddin.imagecompressor.data.preferences
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -46,6 +47,8 @@ class SettingsRepository @Inject constructor(
 
     suspend fun setDefaultFormat(format: FormatOption) = dataStore.edit { it[FORMAT] = format.name }
 
+    suspend fun setShareDiagnostics(enabled: Boolean) = dataStore.edit { it[DIAGNOSTICS] = enabled }
+
     suspend fun setThemeMode(mode: ThemeMode) = dataStore.edit { it[THEME] = mode.name }
 
     suspend fun setSaveLocation(location: SaveLocation) = dataStore.edit {
@@ -68,6 +71,7 @@ class SettingsRepository @Inject constructor(
             defaultQuality = p[QUALITY] ?: defaults.defaultQuality,
             defaultFormat = p[FORMAT]?.let { name -> FormatOption.entries.firstOrNull { it.name == name } } ?: defaults.defaultFormat,
             themeMode = p[THEME]?.let { name -> ThemeMode.entries.firstOrNull { it.name == name } } ?: defaults.themeMode,
+            shareDiagnostics = p[DIAGNOSTICS] ?: defaults.shareDiagnostics,
             saveLocation = if (folderUri != null) {
                 SaveLocation.Folder(folderUri.toUri(), p[FOLDER_LABEL] ?: "Selected folder")
             } else {
@@ -80,6 +84,7 @@ class SettingsRepository @Inject constructor(
         val QUALITY = intPreferencesKey("default_quality")
         val FORMAT = stringPreferencesKey("default_format")
         val THEME = stringPreferencesKey("theme_mode")
+        val DIAGNOSTICS = booleanPreferencesKey("share_diagnostics")
         val FOLDER_URI = stringPreferencesKey("save_folder_uri")
         val FOLDER_LABEL = stringPreferencesKey("save_folder_label")
     }

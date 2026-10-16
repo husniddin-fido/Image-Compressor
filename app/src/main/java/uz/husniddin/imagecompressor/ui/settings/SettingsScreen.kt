@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
@@ -32,6 +33,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -48,6 +50,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import uz.husniddin.imagecompressor.BuildConfig
@@ -103,9 +106,10 @@ fun SettingsRoute(onBack: (() -> Unit)? = null, viewModel: SettingsViewModel = h
             AppearanceCard(s, viewModel::setTheme)
             DefaultsCard(s, viewModel::setDefaultQuality, viewModel::setDefaultFormat)
             SaveLocationCard(s, onPictures = viewModel::usePictures, onChooseFolder = { folderPicker.launch(null) })
+            DiagnosticsCard(s.shareDiagnostics, viewModel::setShareDiagnostics, onLearnMore = { showPrivacy = true })
             AppCard(contentPadding = PaddingValues(vertical = Spacing.xs)) {
                 ActionRow(Icons.Outlined.DeleteSweep, "Clear history", "Removes the list only — files stay", onClick = { confirmClear = true })
-                ActionRow(Icons.Outlined.PrivacyTip, "Privacy", "All processing happens on this device", onClick = { showPrivacy = true })
+                ActionRow(Icons.Outlined.PrivacyTip, "Privacy", "Your images never leave this device", onClick = { showPrivacy = true })
                 ActionRow(Icons.Outlined.Info, "Version", BuildConfig.VERSION_NAME, onClick = null)
             }
             Spacer(Modifier.height(Spacing.xs))
@@ -164,6 +168,30 @@ private fun DefaultsCard(settings: AppSettings, onQuality: (Int) -> Unit, onForm
         Text("Default format", style = MaterialTheme.typography.labelLarge)
         Spacer(Modifier.height(Spacing.xs))
         SegmentedChoice(FormatOption.entries, settings.defaultFormat, onFormat, { it.label })
+    }
+}
+
+@Composable
+private fun DiagnosticsCard(enabled: Boolean, onChange: (Boolean) -> Unit, onLearnMore: () -> Unit) {
+    AppCard {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .toggleable(value = enabled, onValueChange = onChange, role = Role.Switch),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f)) {
+                SectionHeader("Share diagnostics")
+                Text(
+                    "Send anonymous crash reports and usage statistics to help improve the app. Never includes your images, file names or personal data.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Spacer(Modifier.width(Spacing.sm))
+            Switch(checked = enabled, onCheckedChange = null)
+        }
+        TextButton(onClick = onLearnMore, contentPadding = PaddingValues(0.dp)) { Text("What is collected?") }
     }
 }
 
@@ -241,13 +269,14 @@ private fun PrivacyDialog(onDismiss: () -> Unit) {
         title = { Text("Privacy") },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                Text("• Images are compressed, resized and converted entirely on your device. Nothing is uploaded and the app has no internet permission.")
+                Text("• Images are compressed, resized and converted entirely on your device. Your images, file names and their contents are never uploaded.")
                 Text("• The app only reads the photos you pick with the system photo picker, and only writes where you save.")
                 Text("• Your original images are never modified or deleted.")
                 Text("• Outputs don't contain the original EXIF metadata (such as GPS location or camera details).")
                 Text("• Temporary results are stored in the app's private cache and deleted automatically.")
                 Text("• History stores only file names, sizes, dimensions and settings — clearing it never deletes images.")
-                Text("• No account, analytics or ads.")
+                Text("• Diagnostics (can be turned off in Settings → Share diagnostics): anonymous crash reports and usage statistics via Google Firebase Crashlytics and Analytics — e.g. app version, device model, Android version, crash stack traces, screens opened, and how many images were compressed with which settings. No advertising ID is collected.")
+                Text("• No account and no ads.")
             }
         },
         confirmButton = { TextButton(onClick = onDismiss) { Text("OK") } },

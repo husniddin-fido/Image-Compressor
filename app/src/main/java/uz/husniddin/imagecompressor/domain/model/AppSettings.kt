@@ -18,4 +18,6 @@ data class AppSettings(
     val defaultFormat: FormatOption = FormatOption.ORIGINAL,
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val saveLocation: SaveLocation = SaveLocation.Pictures,
+    /** Anonymous usage statistics and crash reports (Firebase). Never includes images or file names. */
+    val shareDiagnostics: Boolean = true,
 )

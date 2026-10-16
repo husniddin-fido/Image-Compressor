@@ -9,6 +9,9 @@ composeBom = "2026.09.00"
 materialIconsExtended = "1.7.8"
 navigation = "2.10.2"
 hilt = "2.60.1"
+firebaseBom = "35.0.2"
+googleServices = "4.5.0"
+firebaseCrashlyticsPlugin = "3.0.8"
 hiltAndroidx = "1.4.0"
 room = "2.8.5"
 datastore = "1.2.1"
@@ -58,6 +61,10 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "a
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -65,3 +72,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 room = { id = "androidx.room", version.ref = "room" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }

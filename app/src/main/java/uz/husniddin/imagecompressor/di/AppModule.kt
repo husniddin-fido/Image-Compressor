@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import uz.husniddin.imagecompressor.data.processing.ImageEngine
 import uz.husniddin.imagecompressor.image.ImageInspector
+import uz.husniddin.imagecompressor.telemetry.FirebaseTelemetry
+import uz.husniddin.imagecompressor.telemetry.Telemetry
 import uz.husniddin.imagecompressor.image.ImageProcessor
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -35,6 +37,9 @@ object AppModule {
     @Provides @Singleton
     fun provideImageProcessor(resolver: ContentResolver, @DefaultDispatcher dispatcher: CoroutineDispatcher) =
         ImageProcessor(resolver, dispatcher)
+
+    @Provides
+    fun provideTelemetry(impl: FirebaseTelemetry): Telemetry = impl
 
     @Provides
     fun provideImageEngine(processor: ImageProcessor): ImageEngine = ImageEngine(processor::process)

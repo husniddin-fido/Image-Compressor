@@ -251,6 +251,7 @@ private fun ComparisonActions(item: BatchItem, result: ProcessedImage, saving: B
                 val uri = ShareHelper.contentUri(context, result.outputFile)
                 try {
                     context.startActivity(ShareHelper.shareIntent(context, listOf(uri), result.format.mimeType))
+                    viewModel.onShared(1)
                 } catch (e: ActivityNotFoundException) {
                     viewModel.showMessage("No app available to share images.")
                 }

@@ -10,12 +10,12 @@ Ushbu hujjat Google Play Console'da ilovani ro'yxatdan o'tkazishda kerak bo'ladi
 * **App Title (maksimal 30 belgi):**
   `Image Compressor & Resizer`
 * **Short Description (maksimal 80 belgi):**
-  `Compress, resize & convert photos offline. Batch processing & before/after view.`
+  `Compress, resize & convert photos on-device. Batch processing & before/after view.`
 * **Full Description (maksimal 4000 belgi):**
 ```text
-Easily compress, resize, and convert your photos completely offline on your device!
+Easily compress, resize, and convert your photos right on your device!
 
-Image Compressor gives you complete control over your photo file sizes without compromising on privacy. No account required, no ads, no background data collection, and absolutely no internet permission.
+Image Compressor gives you complete control over your photo file sizes without compromising on privacy. No account required and no ads. Your photos are processed on your phone and are never uploaded.
 
 ⚡ KEY FEATURES
 
@@ -43,7 +43,8 @@ Image Compressor gives you complete control over your photo file sizes without c
   - Inspect exact file size, dimensions, and compression ratio.
 
 • 100% Privacy & Security:
-  - No internet permission (android.permission.INTERNET is completely absent).
+  - Your photos are never uploaded — processing happens entirely on your device.
+  - Optional anonymous crash reports & usage statistics (can be turned off in Settings).
   - Uses the native Android Photo Picker — no broad storage permissions needed.
   - All processing happens locally on your phone's processor.
   - Originals are never modified or replaced.
@@ -66,9 +67,9 @@ Supported Output Formats: JPEG, PNG, WebP.
   `Rasmlarni sifatini yo'qotmasdan siqish, o'lchamini o'zgartirish va konvertatsiya qilish.`
 * **Full Description (maksimal 4000 belgi):**
 ```text
-Rasmlar hajmini sifatini saqlagan holda to'liq oflayn rejimda siqish, o'lchamini o'zgartirish va konvertatsiya qilish uchun qulay ilova!
+Rasmlar hajmini sifatini saqlagan holda telefonning o'zida siqish, o'lchamini o'zgartirish va konvertatsiya qilish uchun qulay ilova!
 
-Image Compressor internetga ulanmasdan, to'liq telefoningizning o'zida ishlaydi. Hech qanday hisob (akkount) ochish talab etilmaydi, reklamalar yo'q va internet ruxsati mavjud emas — barcha fotosuratlaringiz 100% xavfsiz.
+Image Compressor rasmlarni to'liq telefoningizning o'zida qayta ishlaydi — fotosuratlaringiz hech qachon yuklanmaydi. Hech qanday hisob (akkount) ochish talab etilmaydi va reklamalar yo'q.
 
 ⚡ ASOSIY IMKONIYATLAR
 
@@ -96,7 +97,8 @@ Image Compressor internetga ulanmasdan, to'liq telefoningizning o'zida ishlaydi.
   - Aniq o'lcham, hajm va tejalgan foizni ko'rish.
 
 • 100% Maxfiylik va Xavfsizlik:
-  - Internet ruxsati yo'q (ilova hech qachon tarmoqqa murojaat qilmaydi).
+  - Rasmlaringiz hech qachon yuklanmaydi — barcha ishlov telefonning o'zida.
+  - Ixtiyoriy anonim nosozlik hisobotlari va statistika (Sozlamalarda o'chirish mumkin).
   - Tizimning xavfsiz Photo Picker mexanizmi orqali ishlaydi.
   - Asl rasmlarga aslo tegilmaydi va o'zgartirilmaydi.
 
@@ -109,12 +111,12 @@ Qo'llab-quvvatlanadigan formatlar: JPEG, PNG, WebP, HEIC/HEIF, GIF, BMP, AVIF.
 * **App Title (maksimal 30 belgi):**
   `Сжатие Фото: Image Compressor`
 * **Short Description (maksimal 80 belgi):**
-  `Сжатие, изменение размера и конвертация фото офлайн. Пакетная обработка.`
+  `Сжатие, изменение размера и конвертация фото на устройстве. Пакетная обработка.`
 * **Full Description (maksimal 4000 belgi):**
 ```text
-Удобное и мощное приложение для сжатия, изменения размера и конвертации фотографий полностью офлайн на вашем устройстве!
+Удобное и мощное приложение для сжатия, изменения размера и конвертации фотографий прямо на вашем устройстве!
 
-Image Compressor работает локально, не требует регистрации, не содержит рекламы и не имеет разрешения на доступ в интернет — ваши фото остаются на 100% конфиденциальными.
+Image Compressor обрабатывает фото локально — ваши снимки никогда не загружаются. Не требует регистрации и не содержит рекламы.
 
 ⚡ ОСНОВНЫЕ ВОЗМОЖНОСТИ
 
@@ -140,7 +142,8 @@ Image Compressor работает локально, не требует реги
   - Интерактивный слайдер для визуального сравнения качества до и после сжатия.
 
 • 100% Конфиденциальность:
-  - Полное отсутствие интернет-разрешений.
+  - Ваши фото никогда не загружаются — вся обработка на устройстве.
+  - Необязательные анонимные отчёты о сбоях и статистика (можно отключить в настройках).
   - Оригиналы ваших фото никогда не изменяются и не удаляются.
 ```
 
@@ -150,12 +153,23 @@ Image Compressor работает локально, не требует реги
 
 Play Console'da **App Content > Data Safety** bo'limida quyidagi javoblarni belgilang:
 
+> Ilovada Firebase Crashlytics va Google Analytics for Firebase bor, shuning uchun "No data
+> collected" deb belgilash **noto'g'ri** bo'ladi. Rasmlar va fayllar yig'ilmaydi.
+
 1. **Does your app collect or share any of the required user data types?**
-   👉 **No** (Ilova foydalanuvchi ma'lumotlarini to'plamaydi va ulashmaydi).
+   👉 **Yes** — collects (ulashmaydi / not shared).
 2. **Is all of the user data collected by your app encrypted in transit?**
-   👉 **Not applicable** (Tarmoq orqali hech qanday ma'lumot uzatilmaydi).
+   👉 **Yes** (Firebase HTTPS orqali yuboradi).
 3. **Do you provide a way for users to request that their data be deleted?**
-   👉 **Yes** (Foydalanuvchi istalgan vaqtda kesh yoki tarixni o'chirishi, yoki ilovani o'chirish orqali barcha ma'lumotlarni tozalashi mumkin).
+   👉 Ixtiyoriy. Foydalanuvchi diagnostikani Settings → Share diagnostics orqali o'chira oladi; o'chirish so'rovlari uchun privacy policy'dagi emailni ko'rsatish mumkin.
+4. **Data types** (har birida: *Collected*, *Not shared*, *Processed ephemerally: No*,
+   *Optional* — foydalanuvchi o'chira oladi):
+   * **App info and performance → Crash logs** — purpose: *App functionality / Analytics*.
+   * **App info and performance → Diagnostics** — purpose: *App functionality / Analytics*.
+   * **App activity → App interactions** (ochilgan ekranlar, siqish hodisalari) — purpose: *Analytics*.
+   * **Device or other IDs** (Firebase installation ID / app instance ID) — purpose: *Analytics*.
+   * Belgilanmaydi: Photos and videos, Files and docs, Location, Personal info, Advertising ID
+     (reklama ID'si manifestda o'chirilgan).
 
 ---
 

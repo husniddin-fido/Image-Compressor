@@ -318,3 +318,39 @@ right now.
 quality 100 → guard used q92 (619 KB); hold/release and tap toggle of "Original"; 4-image grid
 renders progressively, total 2.26 MB → 538 KB equals the Results total exactly; previews survive
 returning from Results. Unit 58/58, instrumented 30/30 passed (emulator only).
+
+## Follow-up — Firebase Crashlytics + Analytics — COMPLETED
+
+**Build**: Firebase BoM 35.0.2 (Analytics 24.x, Crashlytics 21.0.0), Google Services plugin 4.5.0,
+Crashlytics Gradle plugin 3.0.8, applied in the standard `plugins {}` block (the earlier
+"apply only if google-services.json exists" condition was removed at the user's request);
+`app/google-services.json` is git-ignored, so a fresh clone needs it to build.
+`google-services.json` (project `image-compressor-6ae3d`) contains both
+`uz.husniddin.imagecompressor` and `.debug`.
+**Code**: `telemetry/Telemetry.kt` (interface, `NoOpTelemetry`, event/param names),
+`telemetry/FirebaseTelemetry.kt` (no-op when Firebase isn't initialised). Events (anonymous, no
+file names/URIs/sizes): `compression_started` {image_count, mode, format, resize},
+`compression_finished` {succeeded, failed, cancelled, saved_percent}, `images_saved`
+{destination, count}, `images_shared` {count}; `screen_view` per navigation destination (route
+name only). Crashlytics records unexpected processing exceptions as non-fatal.
+**Privacy**: collection disabled in the manifest until the "Share diagnostics" setting (DataStore,
+default on, Settings card + privacy dialog) is applied at startup; advertising ID collection and ad
+personalisation disabled; `AD_ID`, `ACCESS_ADSERVICES_AD_ID`, `ACCESS_ADSERVICES_ATTRIBUTION`
+removed (APK verified with aapt2: INTERNET, ACCESS_NETWORK_STATE, WAKE_LOCK, install referrer,
+WRITE_EXTERNAL_STORAGE≤28). Home text changed to "Your images are never uploaded".
+Privacy policy (docs/index.html EN+UZ, docs/privacy-policy.html, PRIVACY_POLICY.md,
+privacy-policy.html), README and PLAY_STORE_LISTING.md (descriptions EN/UZ/RU + Data Safety
+answers) updated — they previously claimed no internet/no analytics.
+**Verification (emulator)**: FirebaseApp + Crashlytics initialise; FA logs show `screen_view`
+(Home → Selection → Configure → Processing → Results), `compression_started`
+{image_count=1, mode=fast, format=original, resize=none} and `compression_finished`
+{succeeded=1, failed=0, cancelled=0, saved_percent=77}; turning "Share diagnostics" off logged
+"Setting app measurement enabled (FE): false" and no further events. Crashlytics' settings request
+could not reach Google from the emulator (corporate network); the release build's
+`uploadCrashlyticsMappingFileRelease` succeeded via the proxy.
+Tests: unit 59/59 (new telemetry assertions in `BatchProcessorTest`), instrumented
+ImageProcessorTest 28/28 + NavigationSmokeTest 2/2 (emulator only). `assembleRelease` OK
+(unsigned 10.9 MB; R8 `packageScope` only covers androidx/kotlin, so Firebase code isn't
+optimised).
+**Not mine / not touched**: untracked `CaptureScreenshotsTest` (currently fails with a Hilt
+`ScreenshotEntryPoint` ClassCastException), `scripts/`, launcher icon edits.

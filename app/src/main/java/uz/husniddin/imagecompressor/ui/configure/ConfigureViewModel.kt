@@ -3,6 +3,7 @@ package uz.husniddin.imagecompressor.ui.configure
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -23,8 +24,10 @@ import uz.husniddin.imagecompressor.domain.model.CompressionPreset
 import uz.husniddin.imagecompressor.domain.model.FormatOption
 import uz.husniddin.imagecompressor.domain.model.ProcessedImage
 import uz.husniddin.imagecompressor.domain.model.ProcessingOptions
+import uz.husniddin.imagecompressor.domain.model.ResizeSpec
 import uz.husniddin.imagecompressor.image.ImageProcessingException
-import javax.inject.Inject
+import uz.husniddin.imagecompressor.telemetry.Events
+import uz.husniddin.imagecompressor.telemetry.Telemetry
 
 /** Live preview of one image at the current settings. */
 sealed interface PreviewState {
@@ -44,6 +47,7 @@ class ConfigureViewModel @Inject constructor(
     private val batchProcessor: BatchProcessor,
     private val previewRenderer: PreviewRenderer,
     settingsRepository: SettingsRepository,
+    private val telemetry: Telemetry,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(initialState(selection))
@@ -149,7 +153,22 @@ class ConfigureViewModel @Inject constructor(
             renderJob?.cancel()
             renderedOptions = null
         }
-        batchProcessor.start(s.images, s.toOptions())
+        val options = s.toOptions()
+        batchProcessor.start(s.images, options)
+        telemetry.logEvent(
+            Events.COMPRESSION_STARTED,
+            mapOf(
+                Events.P_IMAGE_COUNT to s.images.size,
+                Events.P_MODE to s.tab.name.lowercase(),
+                Events.P_FORMAT to s.format.name.lowercase(),
+                Events.P_RESIZE to when (options.resize) {
+                    ResizeSpec.None -> "none"
+                    is ResizeSpec.Percentage -> "percent"
+                    is ResizeSpec.FitWithin -> if (s.resizeMode == ResizeMode.PRESET) "preset" else "custom"
+                    is ResizeSpec.Exact -> "exact"
+                },
+            ),
+        )
         return true
     }
 

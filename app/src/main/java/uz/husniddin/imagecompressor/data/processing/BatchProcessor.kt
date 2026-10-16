@@ -15,6 +15,8 @@ import uz.husniddin.imagecompressor.domain.model.ProcessedImage
 import uz.husniddin.imagecompressor.domain.model.ProcessingOptions
 import uz.husniddin.imagecompressor.domain.model.SourceImage
 import uz.husniddin.imagecompressor.image.ImageProcessingException
+import uz.husniddin.imagecompressor.telemetry.Events
+import uz.husniddin.imagecompressor.telemetry.Telemetry
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -64,6 +66,7 @@ class BatchProcessor @Inject constructor(
     private val engine: ImageEngine,
     private val storage: OutputStorage,
     @ApplicationScope private val scope: CoroutineScope,
+    private val telemetry: Telemetry,
 ) {
     private val _state = MutableStateFlow<BatchState?>(null)
     val state: StateFlow<BatchState?> = _state.asStateFlow()
@@ -132,8 +135,23 @@ class BatchProcessor @Inject constructor(
                         },
                     )
                 }
+                _state.value?.takeIf { it.batchId == batchId }?.let(::reportFinished)
             }
         }
+    }
+
+    /** Anonymous summary only: counts and an overall percentage, no names or sizes. */
+    private fun reportFinished(state: BatchState) {
+        val savedPercent = if (state.originalBytes > 0) (state.savedBytes * 100 / state.originalBytes).toInt() else 0
+        telemetry.logEvent(
+            Events.COMPRESSION_FINISHED,
+            mapOf(
+                Events.P_SUCCEEDED to state.succeeded.size,
+                Events.P_FAILED to state.failedCount,
+                Events.P_CANCELLED to state.cancelledCount,
+                Events.P_SAVED_PERCENT to savedPercent,
+            ),
+        )
     }
 
     private suspend fun processItem(batchId: Long, item: BatchItem, options: ProcessingOptions, dir: File) {
@@ -154,6 +172,7 @@ class BatchProcessor @Inject constructor(
             updateItem(batchId, item.id) { it.copy(status = ItemStatus.FAILED, error = "Not enough memory to process this image. Try resizing it smaller.") }
         } catch (e: Exception) {
             Log.w(TAG, "Unexpected processing failure", e)
+            telemetry.recordNonFatal(e)
             updateItem(batchId, item.id) { it.copy(status = ItemStatus.FAILED, error = "Something went wrong while processing this image.") }
         }
     }

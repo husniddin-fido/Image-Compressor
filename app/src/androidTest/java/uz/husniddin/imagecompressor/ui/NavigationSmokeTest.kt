@@ -26,7 +26,7 @@ class NavigationSmokeTest {
         tab("Compress").assertIsSelected()
         compose.onNodeWithText("Select images").assertIsDisplayed()
         compose.onNodeWithText("Compress a single photo").assertIsDisplayed()
-        compose.onNodeWithText("Processed on your device. Nothing is uploaded.").assertIsDisplayed()
+        compose.onNodeWithText("Processed on your device. Your images are never uploaded.").assertIsDisplayed()
     }
 
     @Test

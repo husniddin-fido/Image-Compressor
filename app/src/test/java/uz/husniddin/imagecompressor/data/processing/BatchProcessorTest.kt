@@ -25,6 +25,9 @@ import uz.husniddin.imagecompressor.domain.model.ProcessedImage
 import uz.husniddin.imagecompressor.domain.model.ProcessingOptions
 import uz.husniddin.imagecompressor.domain.model.SourceImage
 import uz.husniddin.imagecompressor.image.ImageReadException
+import uz.husniddin.imagecompressor.telemetry.Events
+import uz.husniddin.imagecompressor.telemetry.NoOpTelemetry
+import uz.husniddin.imagecompressor.telemetry.Telemetry
 import java.io.File
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -63,7 +66,7 @@ class BatchProcessorTest {
             if (src.displayName == "b.jpg") throw ImageReadException("The image is no longer available.")
             fakeResult(src, out, 400)
         }
-        val processor = BatchProcessor(engine, storage, appScope)
+        val processor = BatchProcessor(engine, storage, appScope, NoOpTelemetry)
         processor.start(listOf(image("a"), image("b"), image("c")), ProcessingOptions())
         advanceUntilIdle()
 
@@ -79,7 +82,7 @@ class BatchProcessorTest {
     @Test
     fun unexpectedException_isReportedAsFailure() = testScope.runTest {
         val engine = ImageEngine { _, _, _ -> throw IllegalStateException("boom") }
-        val processor = BatchProcessor(engine, storage, appScope)
+        val processor = BatchProcessor(engine, storage, appScope, NoOpTelemetry)
         processor.start(listOf(image("a")), ProcessingOptions())
         advanceUntilIdle()
         val item = processor.state.value!!.items.single()
@@ -90,7 +93,7 @@ class BatchProcessorTest {
     @Test
     fun savings_areComputedFromMeasuredSizes() = testScope.runTest {
         val engine = ImageEngine { src, _, out -> fakeResult(src, out, if (src.displayName == "a.jpg") 250 else 1500) }
-        val processor = BatchProcessor(engine, storage, appScope)
+        val processor = BatchProcessor(engine, storage, appScope, NoOpTelemetry)
         processor.start(listOf(image("a", 1000), image("b", 1000)), ProcessingOptions())
         advanceUntilIdle()
         val state = processor.state.value!!
@@ -109,7 +112,7 @@ class BatchProcessorTest {
             if (src.displayName == "b.jpg") gate.await()
             fakeResult(src, out, 10)
         }
-        val processor = BatchProcessor(engine, storage, appScope)
+        val processor = BatchProcessor(engine, storage, appScope, NoOpTelemetry)
         processor.start(listOf(image("a"), image("b"), image("c"), image("d")), ProcessingOptions())
         advanceUntilIdle()
         val mid = processor.state.value!!
@@ -129,7 +132,7 @@ class BatchProcessorTest {
             if (src.displayName == "b.jpg") awaitCancellation()
             fakeResult(src, out, 10)
         }
-        val processor = BatchProcessor(engine, storage, appScope)
+        val processor = BatchProcessor(engine, storage, appScope, NoOpTelemetry)
         processor.start(listOf(image("a"), image("b"), image("c")), ProcessingOptions())
         advanceUntilIdle()
         processor.cancel()
@@ -150,7 +153,7 @@ class BatchProcessorTest {
             if (src.displayName == "b.jpg" && failB) throw ImageReadException("temporary")
             fakeResult(src, out, 10)
         }
-        val processor = BatchProcessor(engine, storage, appScope)
+        val processor = BatchProcessor(engine, storage, appScope, NoOpTelemetry)
         processor.start(listOf(image("a"), image("b")), ProcessingOptions())
         advanceUntilIdle()
         failB = false
@@ -168,7 +171,7 @@ class BatchProcessorTest {
             if (src.displayName == "old.jpg") awaitCancellation()
             fakeResult(src, out, 10)
         }
-        val processor = BatchProcessor(engine, storage, appScope)
+        val processor = BatchProcessor(engine, storage, appScope, NoOpTelemetry)
         processor.start(listOf(image("old")), ProcessingOptions())
         advanceUntilIdle()
         processor.start(listOf(image("new")), ProcessingOptions())
@@ -181,7 +184,7 @@ class BatchProcessorTest {
     @Test
     fun clear_removesSessionAndTemporaryFiles() = testScope.runTest {
         val engine = ImageEngine { src, _, out -> fakeResult(src, out, 10) }
-        val processor = BatchProcessor(engine, storage, appScope)
+        val processor = BatchProcessor(engine, storage, appScope, NoOpTelemetry)
         processor.start(listOf(image("a")), ProcessingOptions())
         advanceUntilIdle()
         val file = processor.state.value!!.items.single().result!!.outputFile
@@ -189,5 +192,40 @@ class BatchProcessorTest {
         processor.clear()
         assertNull(processor.state.value)
         assertFalse(file.exists())
+    }
+
+    private class RecordingTelemetry : Telemetry {
+        val events = mutableListOf<Pair<String, Map<String, Any>>>()
+        val nonFatals = mutableListOf<Throwable>()
+        override fun setCollectionEnabled(enabled: Boolean) = Unit
+        override fun logEvent(name: String, params: Map<String, Any>) { events += name to params }
+        override fun logScreen(screenName: String) = Unit
+        override fun recordNonFatal(throwable: Throwable) { nonFatals += throwable }
+    }
+
+    @Test
+    fun finishedBatch_reportsAnonymousSummary_andUnexpectedErrorsAsNonFatal() = testScope.runTest {
+        val telemetry = RecordingTelemetry()
+        val engine = ImageEngine { src, _, out ->
+            when (src.displayName) {
+                "b.jpg" -> throw ImageReadException("gone")
+                "c.jpg" -> throw IllegalStateException("bug")
+                else -> fakeResult(src, out, 250)
+            }
+        }
+        val processor = BatchProcessor(engine, storage, appScope, telemetry)
+        processor.start(listOf(image("a", 1000), image("b"), image("c")), ProcessingOptions())
+        advanceUntilIdle()
+
+        val (name, params) = telemetry.events.single()
+        assertEquals(Events.COMPRESSION_FINISHED, name)
+        assertEquals(1, params[Events.P_SUCCEEDED])
+        assertEquals(2, params[Events.P_FAILED])
+        assertEquals(0, params[Events.P_CANCELLED])
+        assertEquals(75, params[Events.P_SAVED_PERCENT])
+        // Never user content: no file names or URIs in any parameter.
+        assertTrue(params.values.none { it.toString().contains(".jpg") || it.toString().contains("content://") })
+        // Expected read errors are not reported; programming errors are.
+        assertEquals(listOf("bug"), telemetry.nonFatals.map { it.message })
     }
 }

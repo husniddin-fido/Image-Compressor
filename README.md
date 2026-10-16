@@ -4,7 +4,8 @@ An Android app for compressing, resizing and converting images **entirely on the
 Pick one photo or a whole batch, choose a quality level or a target file size, compare the
 result against the original with a before/after slider, then save or share it.
 
-No account, no backend, no ads, no internet permission.
+No account, no backend, no ads. Images never leave the device; optional anonymous crash
+reports and usage statistics (Firebase) can be turned off in Settings.
 
 ## Features
 
@@ -49,7 +50,8 @@ No account, no backend, no ads, no internet permission.
 
 Kotlin 2.4 · Jetpack Compose (BOM 2026.09) · Material 3 · MVVM with StateFlow · Navigation
 Compose (type-safe routes) · Hilt · Coroutines · Room · DataStore · Coil 3 (thumbnails) ·
-AndroidX ExifInterface · platform `BitmapFactory` / `Bitmap.compress` for all image processing.
+AndroidX ExifInterface · platform `BitmapFactory` / `Bitmap.compress` for all image processing ·
+Firebase Crashlytics + Analytics (behind a `Telemetry` interface).
 Build: AGP 9.4, Gradle 9.6, version catalog. `minSdk 28`, `targetSdk`/`compileSdk 37`.
 
 ## Project structure
@@ -72,6 +74,10 @@ app/src/main/java/uz/husniddin/imagecompressor/
 
 Requirements: Android Studio (recent, supporting AGP 9.4) or the command line with JDK 17+, and
 Android SDK platform 37.
+
+**Firebase (required to build):** put `google-services.json` from the Firebase console (project
+with Android apps `uz.husniddin.imagecompressor` **and** `uz.husniddin.imagecompressor.debug`)
+into `app/`. It is git-ignored, so a fresh clone needs this file before it can build.
 
 ```bash
 ./gradlew assembleDebug
@@ -134,7 +140,15 @@ release build.
 
 ## Privacy
 
-- All processing happens on the device. The app has no `INTERNET` permission.
+- All image processing happens on the device. Images, file names and image contents are never
+  uploaded.
+- **Diagnostics (optional, on by default, Settings → Share diagnostics):** Firebase Crashlytics
+  (crash reports, non-fatal unexpected errors) and Google Analytics for Firebase (screen views and
+  anonymous events: `compression_started` — image count, mode, format, resize type;
+  `compression_finished` — succeeded/failed/cancelled counts, saved percent; `images_saved` —
+  destination type and count; `images_shared` — count). Collection starts disabled in the
+  manifest and follows the user's setting at startup. Advertising ID collection and ad
+  personalisation are disabled and the `AD_ID` / ad-services permissions are removed.
 - It only reads photos you pick in the system picker and only writes where you save.
 - Originals are never modified or deleted.
 - Temporary results live in the app's private cache (`cache/outputs`). They are deleted when a

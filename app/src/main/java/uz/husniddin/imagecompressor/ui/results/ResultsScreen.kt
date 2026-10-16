@@ -109,6 +109,7 @@ fun ResultsRoute(
         val mime = ShareHelper.commonMimeType(items.map { it.result!!.format.mimeType })
         try {
             context.startActivity(ShareHelper.shareIntent(context, uris, mime))
+            viewModel.onShared(uris.size)
         } catch (e: ActivityNotFoundException) {
             viewModel.showMessage("No app available to share images.")
         }

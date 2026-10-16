@@ -35,6 +35,7 @@ class SettingsViewModel @Inject constructor(
     val messages: Flow<UiMessage> = _messages.receiveAsFlow()
 
     fun setTheme(mode: ThemeMode) = viewModelScope.launch { settingsRepository.setThemeMode(mode) }
+    fun setShareDiagnostics(enabled: Boolean) = viewModelScope.launch { settingsRepository.setShareDiagnostics(enabled) }
     fun setDefaultQuality(q: Int) = viewModelScope.launch { settingsRepository.setDefaultQuality(q) }
     fun setDefaultFormat(f: FormatOption) = viewModelScope.launch { settingsRepository.setDefaultFormat(f) }
     fun usePictures() = viewModelScope.launch {

@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import uz.husniddin.imagecompressor.data.output.ResultSaver
 import uz.husniddin.imagecompressor.data.output.SaveDestination
+import uz.husniddin.imagecompressor.telemetry.Events
+import uz.husniddin.imagecompressor.telemetry.Telemetry
 import uz.husniddin.imagecompressor.data.preferences.SettingsRepository
 import uz.husniddin.imagecompressor.data.processing.BatchItem
 import uz.husniddin.imagecompressor.domain.model.SaveLocation
@@ -32,6 +34,7 @@ class ComparisonViewModel @Inject constructor(
     batchProcessor: BatchProcessor,
     private val resultSaver: ResultSaver,
     settingsRepository: SettingsRepository,
+    private val telemetry: Telemetry,
 ) : ViewModel() {
 
     val saveLocation: StateFlow<SaveLocation> = settingsRepository.settings
@@ -57,6 +60,7 @@ class ComparisonViewModel @Inject constructor(
             _saving.value = true
             try {
                 val location = resultSaver.save(current, destination, fileName)
+                reportSaved(destination, 1)
                 _messages.send(UiMessage("Saved as ${location.displayName}"))
             } catch (e: ImageProcessingException) {
                 _messages.send(UiMessage(e.message ?: "The image couldn't be saved."))
@@ -67,6 +71,18 @@ class ComparisonViewModel @Inject constructor(
     }
 
     fun saveToDefault(fileName: String) = save(SaveDestination.from(saveLocation.value), fileName)
+
+    fun onShared(count: Int) = telemetry.logEvent(Events.IMAGES_SHARED, mapOf(Events.P_COUNT to count))
+
+    private fun reportSaved(destination: SaveDestination, count: Int) {
+        if (count == 0) return
+        val type = when (destination) {
+            SaveDestination.Pictures -> "pictures"
+            is SaveDestination.Folder -> "folder"
+            is SaveDestination.Document -> "document"
+        }
+        telemetry.logEvent(Events.IMAGES_SAVED, mapOf(Events.P_DESTINATION to type, Events.P_COUNT to count))
+    }
 
     fun showMessage(text: String) {
         viewModelScope.launch { _messages.send(UiMessage(text)) }
