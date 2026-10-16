@@ -354,3 +354,21 @@ ImageProcessorTest 28/28 + NavigationSmokeTest 2/2 (emulator only). `assembleRel
 optimised).
 **Not mine / not touched**: untracked `CaptureScreenshotsTest` (currently fails with a Hilt
 `ScreenshotEntryPoint` ClassCastException), `scripts/`, launcher icon edits.
+
+## Follow-up — Play Console store listing & translations — COMPLETED
+
+**Review findings** (Play Console → Translations → Store listings, machine translation order
+of Oct 16, 28 languages): every translation came from the old English listing, which claimed
+"completely offline", "no background data collection" and "absolutely no internet permission" —
+false since Firebase was added; 24/28 translations exceeded the limits (name > 30 or short
+description > 80 characters) and could not be applied; texts mentioned a non-existent "pause"
+and omitted Live preview. Arabic, Japanese and Korean had already been applied.
+**Done (with the user's permission)**: wrote an accurate English listing and 28 translations
+(`store_listing/*.json`, lengths validated: name ≤ 30, short ≤ 80, full ≤ 4000); saved the
+English default listing as a **draft**; applied all 28 translations through the translation
+dialog ("Review and apply" → Apply). Verified: 28/28 marked applied; Russian, Arabic and Turkish
+re-opened and match the files exactly; the listing's language list shows en-US + 28 languages.
+Nothing was sent for review.
+**Next for the developer**: review the draft and send the store listing for review from
+Publishing overview; update the Data safety form for Firebase before publishing that build;
+optionally have native speakers check key markets.
